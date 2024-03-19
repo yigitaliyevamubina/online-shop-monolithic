@@ -62,8 +62,10 @@ func GetUser(w http.ResponseWriter, r *http.Request) {
 	var user models.User
 
 	var params = mux.Vars(r)
+	fmt.Println(params)
 
 	filter := bson.M{"uuid": params["id"]}
+	fmt.Println(params["id"])
 	err := database.Collection("users").FindOne(context.Background(), filter).Decode(&user)
 	if err != nil {
 		helper.HandleError(err, w, http.StatusInternalServerError, "-> Get user")
@@ -265,9 +267,9 @@ func DeleteProduct(w http.ResponseWriter, r *http.Request) {
 func ListProducts(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-type", "application/json")
 
-	params := mux.Vars(r)
-	page := cast.ToInt64(params["page"])
-	limit := cast.ToInt64(params["limit"])
+	params := r.URL.Query()
+	page := cast.ToInt64(params.Get("page"))
+	limit := cast.ToInt64(params.Get("limit"))
 
 	offset := (page - 1) * limit
 	options := options.Find()
@@ -465,12 +467,11 @@ func ListUsersProducts(w http.ResponseWriter, r *http.Request) {
 
 // List shopping carts
 func ListShoppingCarts(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("Starting ListShoppingCarts...") // Print start message
 	w.Header().Set("Content-Type", "application/json")
 
-	params := mux.Vars(r)
-	page := cast.ToInt64(params["page"])
-	limit := cast.ToInt64(params["limit"])
+	params := r.URL.Query()
+	page := cast.ToInt64(params.Get("page"))
+	limit := cast.ToInt64(params.Get("limit"))
 
 	offset := (page - 1) * limit
 
