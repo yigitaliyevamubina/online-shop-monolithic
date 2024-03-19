@@ -26,7 +26,7 @@ func main() {
 
 	router.HandleFunc("/products/add", handlers.AddProductToShoppingCart).Methods("POST")         //add product to the shopping cart or just create one
 	router.HandleFunc("/products/remove", handlers.RemoveProductFromShoppingCart).Methods("POST") //remove product from the shopping cart or delete your shopping cart
-	router.HandleFunc("/products", handlers.ListUsersProducts).Methods("GET")                     //get you shopping cart (provide user id)
+	router.HandleFunc("/products/user", handlers.ListUsersProducts).Methods("GET")                     //get you shopping cart (provide user id)
 	router.HandleFunc("/products/carts", handlers.ListShoppingCarts).Methods("GET")               // list all users' shopping carts
 
 	fmt.Println("Listening on book-service:6060...")
